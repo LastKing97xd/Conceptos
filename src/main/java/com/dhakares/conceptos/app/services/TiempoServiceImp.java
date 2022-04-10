@@ -29,6 +29,31 @@ public class TiempoServiceImp implements TiempoService{
 	@Override
 	public void save(Tiempo tiempo) {
 		
+		String momento;
+		String nombre=tiempo.getNombre();
+
+		String hora=tiempo.getHora();
+		
+		Integer phora=Integer.parseInt(hora.split(":")[0]);
+		Integer pminuto=Integer.parseInt(hora.split(":")[1]);
+		
+		if(phora<12) {
+			momento="dias";
+			
+		}else if(phora>=12 && phora<18) {
+			momento="tardes";
+		}else if(phora == 18) {
+			if(pminuto<30) {
+				momento= "tardes";
+			}else {
+				momento="noches";
+			}
+		}else {
+			momento="noches";
+		}
+		
+		tiempo.setMomento(momento);
+		tiempo.setRespuesta("Buenas "+momento+" "+nombre+", que lo pases excelente :D");
 		tiempoDao.save(tiempo);
 	}
 
