@@ -2,7 +2,6 @@ package com.dhakares.conceptos.app.controllers;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,21 +13,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.dhakares.conceptos.app.documents.Tiempo;
-import com.dhakares.conceptos.app.services.TiempoServiceImp;
-
+import com.dhakares.conceptos.app.services.TiempoService;
 
 @RestController
 @RequestMapping("/api/tiempo")
 public class TiempoResController {
 
 	@Autowired
-	private TiempoServiceImp tiempoServiceImp;
+	private TiempoService tiempoService;
 	
 	
 	@GetMapping()
 	public ResponseEntity<List<Tiempo>>  index(){
 		
-		List<Tiempo> lista= tiempoServiceImp.findAll();
+		List<Tiempo> lista= tiempoService.findAll();
 		
 		return new ResponseEntity<List<Tiempo>>(lista,HttpStatus.OK);
 	}
@@ -36,7 +34,7 @@ public class TiempoResController {
 	@PostMapping("/guardar")
 	public ResponseEntity<?>  save(@RequestBody Tiempo tiempo){
 		
-		tiempoServiceImp.save(tiempo);
+		tiempoService.save(tiempo);
 		
 		return new ResponseEntity("Guardado",HttpStatus.CREATED);
 	}
@@ -45,7 +43,7 @@ public class TiempoResController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Optional<Tiempo>> indexe(@PathVariable String id){
 		
-		Optional<Tiempo> buscar=tiempoServiceImp.findById(id);
+		Optional<Tiempo> buscar=tiempoService.findById(id);
 		
 		return new ResponseEntity<Optional<Tiempo>>(buscar,HttpStatus.OK);
 		
@@ -55,7 +53,7 @@ public class TiempoResController {
 	@DeleteMapping("/delete")
 	public ResponseEntity<?> delete (@RequestBody Tiempo id){
 		
-		tiempoServiceImp.delete(id);
+		tiempoService.delete(id);
 		
 		return new ResponseEntity("Borrado",HttpStatus.OK);
 	}
